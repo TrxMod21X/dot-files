@@ -1,0 +1,430 @@
+; __  __           _       _           
+;|  \/  | ___   __| |_   _| | ___  ___   z0mbi3
+;| |\/| |/ _ \ / _` | | | | |/ _ \/ __|  https://github.com/gh0stzk/dotfiles
+;| |  | | (_) | (_| | |_| | |  __/\__ \  z0mbi3.zk@protonmail.com
+;|_|  |_|\___/ \__,_|\__,_|_|\___||___/
+;                                      By z0mbi3
+
+
+[module/spotify]
+type = custom/script
+exec = /home/rh/.config/polybar/script/spotify.sh %artist% - %title%
+tail = true
+interval = 1
+format ="<label>"
+format-prefix-foreground = ${colors.dark}
+format-prefix-background = ${colors.green}
+format-foreground = ${colors.dark}
+format-background = ${colors.green}
+label-maxlen = 45
+#label-maxlen = 35
+#format-font = jetbrains mono
+
+[module/spotify-prev]
+type = custom/script
+format = <label>
+exec = echo "%{F#ff217c} 玲 %{F-}"
+click-left = playerctl previous spotify
+exec-if = pgrep -x spotify
+
+
+[module/spotify-play-pause]
+type = custom/script
+format = <label>
+exec = echo "%{F#ff217c}契 %{F-}"
+click-left = playerctl play-pause spotify
+exec-if = pgrep -x spotify
+
+[module/spotify-next]
+type = custom/script
+format = <label>
+exec = echo "%{F#ff217c}怜%{F-}"
+click-left = playerctl next spotify
+exec-if = pgrep -x spotify
+
+######################################################
+
+[module/bi]
+type                        = custom/text
+content                     = "%{T5}%{T-}"
+content-foreground          = ${color.MB}
+content-background          = ${color.BACKGROUND}
+
+[module/bd]
+type                        = custom/text
+content                     = "%{T5}%{T-}"
+content-foreground          = ${color.MB}
+content-background          = ${color.BACKGROUND}
+
+######################################################
+
+[module/date]
+type = internal/date
+
+interval = 1.0
+
+time = %I:%M %P
+format-background = ${color.MB}
+format-foreground = ${color.FOREGROUND}
+date-alt = " %d %B %Y"
+
+format = <label>
+format-prefix = ""
+format-prefix-font = 2
+format-prefix-background = ${color.MB}
+format-prefix-foreground = ${color.ALTWHITE}
+
+label = %date% %time%
+
+######################################################
+
+[module/filesystem]
+type = internal/fs
+
+mount-0 = /
+interval = 60
+fixed-values = true
+
+format-mounted = <label-mounted>
+format-mounted-prefix = " "
+format-mounted-prefix-font = 2
+format-mounted-prefix-background = ${color.MB}
+format-mounted-prefix-foreground = ${color.ALTGREEN}
+
+format-unmounted = <label-unmounted>
+format-unmounted-prefix-font = 2
+format-unmounted-prefix = " "
+
+label-mounted = %used%
+label-mounted-background = ${color.MB}
+
+label-unmounted = %mountpoint%: not mounted
+
+######################################################
+
+[module/network]
+type = internal/network
+interface = wlan0
+
+interval = 3.0
+accumulate-stats = true
+unknown-as-up = true
+
+format-connected = <label-connected>
+format-connected-prefix = ""
+format-connected-prefix-font = 2
+format-connected-background = ${color.MB}
+format-connected-foreground = ${color.WHITE}
+
+speed-unit = ""
+label-connected = " %{A1:nmd &:}%netspeed%%{A}"
+label-connected-background = ${color.MB}
+label-connected-foreground = ${color.ALTGREEN}
+
+format-disconnected = <label-disconnected>
+# format-disconnected-prefix = "睊 "
+format-disconnected-prefix-font = 2
+format-disconnected-foreground = ${color.BLACK}
+label-disconnected-background = ${color.MB}
+
+
+label-disconnected = "%{A1:nmd &:}127.0.0.1%{A}"
+label-disconnected-foreground = ${color.BLACK}
+
+######################################################
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+;;sink = alsa_output.pci-0000_00_1b.0.analog-stereo
+use-ui-max = true
+interval = 5
+
+format-volume = <label-volume>
+format-volume-prefix = " "
+format-volume-prefix-font = 2
+format-volume-background = ${color.MB}
+format-volume-foreground = ${color.ALTCYAN}
+
+label-volume = "%{A1:pavucontrol &:}%percentage%%{A} "
+label-volume-background = ${color.MB}
+label-volume-foreground = ${color.FOREGROUND}
+
+format-muted = <label-muted>
+format-muted-prefix = 
+format-muted-prefix-font = 2
+format-muted-foreground = ${color.ALTCYAN}
+format-muted-background = ${color.MB}
+label-muted = " Muted "
+label-muted-foreground = ${color.BLACK}
+label-muted-background = ${color.MB}
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-3 = 
+ramp-volume-4 = 
+
+click-right = pavucontrol
+
+######################################################
+
+[module/bspwm]
+type = internal/bspwm
+
+enable-click = true
+enable-scroll = true
+reverse-scroll = true
+pin-workspaces = true
+occupied-scroll = false
+
+
+format = <label-state>
+format-font = 3
+
+label-focused = 󰮯 
+label-focused-background = ${color.MB}
+label-focused-padding = 1
+label-focused-foreground = ${color.ALTRED}
+
+label-occupied = 󰊠
+label-occupied-padding = 1
+label-occupied-background = ${color.MB}
+label-occupied-foreground= ${color.YELLOW}
+
+label-urgent = %icon%
+label-urgent-padding = 0
+
+label-empty = 󰑊
+label-empty-foreground = ${color.GREEN}
+label-empty-padding = 1
+label-empty-background = ${color.MB}
+
+######################################################
+
+[module/updates]
+type = custom/script
+exec = ~/.config/bspwm/scripts/Updates
+interval = 60
+label = %output%
+label-background = ${color.MB}
+click-left = Term --ou
+click-right = Term --ocu
+format-prefix = " "
+format-prefix-font = 2
+format-prefix-background = ${color.MB}
+format-prefix-foreground = ${color.ALTBLACK}
+
+######################################################
+
+[module/launcher]
+type = custom/text
+
+content = 󰣇
+content-foreground = ${color.BLUE}
+content-font = 4
+
+click-left = rofi -no-lazy-grab -show drun -theme $HOME/.config/bspwm/rofi/themes/launcher.rasi
+; click-right = $HOME/.config/bspwm/rofi/bin/launcher
+
+######################################################
+
+[module/sep]
+type = custom/text
+content = " "
+content-foreground = ${color.BACKGROUND}
+
+######################################################
+
+[module/dots]
+type = custom/text
+content = " 󰇙 "
+content-font = 3
+content-foreground = ${color.ALTWHITE}
+
+######################################################
+
+[module/cpu_bar]
+type = internal/cpu
+
+interval = 0.5
+
+format = <label>
+format-prefix = " "
+format-prefix-font = 2
+format-prefix-background = ${color.MB}
+format-prefix-foreground = ${color.BLACK}
+
+label = "%percentage%%"
+label-background = ${color.MB}
+
+######################################################
+
+[module/memory_bar]
+type = internal/memory
+
+interval = 3
+
+format = <label>
+format-prefix = " "
+format-prefix-font = 2
+format-prefix-background = ${color.MB}
+format-prefix-foreground = ${color.MAGENTA}
+
+label = %used%
+label-background = ${color.MB}
+
+######################################################
+
+[module/mpd_control]
+type            = internal/mpd
+host            = 127.0.0.1
+port            = 6600
+interval        = 2
+format-online   = <icon-prev><toggle><icon-next>
+format-offline  = <label-offline>
+label-offline = "󰝛 Sin musica"
+icon-play               = " %{T2} "
+icon-pause              = " %{T2} "
+icon-stop               = " %{T2} "
+icon-prev               = "%{T2} "
+icon-next               = " %{T2}"
+
+format-offline-background = ${color.MB}
+format-offline-foreground = ${color.ALTMAGENTA}
+icon-play-background    = ${color.MB}
+icon-pause-background   = ${color.MB}
+icon-stop-background    = ${color.MB}
+icon-prev-background    = ${color.MB}
+icon-next-background    = ${color.MB}
+icon-repeat-background  = ${color.mb}
+icon-play-foreground    = ${color.ALTBLACK}
+icon-pause-foreground   = ${color.ALTBLACK}
+icon-stop-foreground    = ${color.ALTBLACK}
+icon-prev-foreground    = ${color.YELLOW}
+icon-next-foreground    = ${color.YELLOW}
+toggle-on-foreground    = ${color.WHITE}
+toggle-off-foreground   = ${color.BLACK}
+
+[module/mpd]
+type                    = internal/mpd
+host                    = 127.0.0.1
+port                    = 6600
+interval        		= 2
+format-online           = "<icon-repeat> %{F#9ece6a}[%{F-} %{A1:Term --om:}<label-song>%{A} %{F#9ece6a}]%{F-}"
+format-offline          = "Offline"
+label-song              = "%title%"
+label-song-maxlen		= 12
+icon-repeat             = ""
+icon-repeat-font		= 2
+
+icon-repeat-background  = ${color.BACKGROUND}
+toggle-on-foreground    = ${color.WHITE}
+toggle-off-foreground   = ${color.BLACK}
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 75
+
+format = "<ramp><label>"
+format-foreground = ${color.ALTGREEN}
+format-background = ${color.MB}
+label = "%temperature-c%"
+label-foreground = ${color.FOREGROUND}
+label-background = ${color.MB}
+
+format-warn = <ramp><label-warn>
+format-warn-foreground = ${color.RED}
+format-warn-background = ${color.MB}
+label-warn = "%temperature-c%"
+label-warn-foreground = ${color.RED}
+label-warn-background = ${color.MB}
+
+
+ramp-0 = " "
+ramp-1 = " "
+ramp-2 = " "
+ramp-3 = " "
+ramp-4 = " "
+ramp-foreground = ${colors.ALTGREEN}
+ramp-background = ${colors.MB}
+
+[module/battery]
+type = internal/battery
+
+full-at = 99
+
+battery = ${system.sys_battery}
+adapter = ${system.sys_adapter}
+
+poll-interval = 2
+time-format = %H:%M
+
+format-charging = <animation-charging><label-charging>
+
+format-discharging = <ramp-capacity><label-discharging>
+
+format-full = <label-full>
+format-full-background = ${color.MB}
+format-full-foreground = ${color.CYAN}
+
+format-full-prefix = " "
+format-full-prefix-font = 2
+format-prefix-background = ${color.MB}
+format-prefix-foreground = ${color.BLACK}
+
+label-charging = " %percentage%%"
+label-charging-background = ${color.MB}
+label-charging-foreground = ${color.BLACK}
+
+label-discharging = " %percentage%%"
+label-discharging-background = ${color.MB}
+
+label-full = %percentage%%
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-font = 2
+ramp-capacity-foreground = ${color.RED}
+ramp-capacity-background = ${color.MB}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-font = 2
+animation-charging-foreground = ${color.CYAN}
+animation-charging-background = ${color.MB}
+animation-charging-framerate = 750
+
+[module/brightness]
+type = internal/backlight
+
+card = intel_backlight
+
+enable-scroll = true
+
+format = <ramp><label>
+
+label = " %percentage%%"
+label-background = ${color.MB}
+label-foreground = ${color.CYAN}
+
+ramp-0 = 󰃜
+ramp-1 = 󰃜
+ramp-2 = 󰃛
+ramp-3 = 󰃛
+ramp-4 = 󰃝
+ramp-5 = 󰃝
+ramp-6 = 󰃞
+ramp-7 = 󰃞
+ramp-8 = 󰃞
+ramp-9 = 󰃞
+ramp-font = 3
+ramp-foreground = ${color.CYAN}
+ramp-background = ${color.MB}
